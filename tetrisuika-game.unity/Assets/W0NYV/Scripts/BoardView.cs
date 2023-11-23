@@ -10,19 +10,25 @@ public class BoardView : MonoBehaviour
     [SerializeField] private Material _material;
     private Matrix4x4[] _instData = new Matrix4x4[200];
     private GraphicsBuffer _colorBuffer;
+    private ColorTable _colorTable = new ColorTable();
+
+    public void SetBuffer(TetriminoType[] board)
+    {
+        var colorArray = new Vector4[_instData.Length];
+        for(int i = 0; i < colorArray.Length; i++)
+        {
+            colorArray[i] = _colorTable.Table[board[i]];
+        }
+
+        _colorBuffer.SetData(colorArray);
+        colorArray = null;
+    }
 
     private void InitBuffer()
     {
         _colorBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, _instData.Length, sizeof(float) * 4);
 
-        var colorArray = new Vector4[_instData.Length];
-        for(int i = 0; i < colorArray.Length; i++)
-        {
-            colorArray[i] = new Vector4(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1f);
-        }
-
-        _colorBuffer.SetData(colorArray);
-        colorArray = null;
+        SetBuffer(new TetriminoType[200]);
     }
 
     private void Start() 

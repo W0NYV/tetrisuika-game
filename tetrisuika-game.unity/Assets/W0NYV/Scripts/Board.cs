@@ -22,4 +22,16 @@ public class Board
             _boardArray[i] = TetriminoType.Void;
         }
     }
+
+    public TetriminoType[] GetArray()
+    {
+        TetriminoType[] board = new TetriminoType[200];
+        
+        for (int i = 0; i < board.Length; i++)
+        {
+            board[i] = _boardArray[i];
+        }
+
+        return board;
+    }
 }

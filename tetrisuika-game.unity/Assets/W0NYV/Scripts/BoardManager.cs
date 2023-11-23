@@ -19,6 +19,8 @@ public class BoardManager : MonoBehaviour
             .Subscribe(data =>
             {
                 Debug.Log($"Replace : Index = {data.Index}, OldValue = {data.OldValue}, NewValue = {data.NewValue}");
+
+                _view.SetBuffer(_board.GetArray());
             })
             .AddTo(this);
     }
@@ -27,7 +29,7 @@ public class BoardManager : MonoBehaviour
         
         if(Input.GetKeyDown("space"))
         {
-            _board.ChangeSquare(3, TetriminoType.O);
+            _board.ChangeSquare(15, TetriminoType.O);
         }
 
     }
