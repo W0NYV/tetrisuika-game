@@ -8,6 +8,13 @@ public class Board
 
     private ReactiveCollection<TetriminoType> _boardArray = new ReactiveCollection<TetriminoType>(new TetriminoType[200]);
     public IReadOnlyReactiveCollection<TetriminoType> BoardArray => _boardArray;
+    private ReactiveCollection<bool> _isControllableArray = new ReactiveCollection<bool>(new bool[200]);
+    public IReadOnlyReactiveCollection<bool> IsControllableArray => _isControllableArray;
+
+    public void ChangeControllable(int index, bool value)
+    {
+        _isControllableArray[index] = value;
+    }
 
     public void ChangeSquare(int index, TetriminoType type)
     {

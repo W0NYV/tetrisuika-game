@@ -44,7 +44,7 @@ public class BoardView : MonoBehaviour
 
             _instData[i] = Matrix4x4.identity;
 
-            _instData[i].SetTRS(new Vector3(row * 2f, col * 2f, 0f),
+            _instData[i].SetTRS(new Vector3(row * 1.1f - 5f * 1.1f, col * 1.1f - 9.5f * 1.1f, 10f),
                                 Quaternion.identity,
                                 Vector3.one);
         }
