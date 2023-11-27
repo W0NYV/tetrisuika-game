@@ -51,7 +51,7 @@ public class BoardManager : MonoBehaviour
 
     public void DownShift()
     {
-        for (int i = 0; i < 200; i++)
+        for (int i = 0; i < _board.BoardArray.Count; i++)
         {
             if(_board.IsControllableArray[i])
             {
@@ -69,7 +69,7 @@ public class BoardManager : MonoBehaviour
 
     public void LeftShift()
     {
-        for (int i = 0; i < 200; i++)
+        for (int i = 0; i < _board.BoardArray.Count; i++)
         {
             if(_board.IsControllableArray[i])
             {
@@ -84,7 +84,7 @@ public class BoardManager : MonoBehaviour
 
     public void RightShift()
     {
-        for (int i = 200 - 1; i >= 0; i--)
+        for (int i = _board.BoardArray.Count - 1; i >= 0; i--)
         {
             if(_board.IsControllableArray[i])
             {

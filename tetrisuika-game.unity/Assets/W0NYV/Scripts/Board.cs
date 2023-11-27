@@ -23,8 +23,7 @@ public class Board
 
     public void Reset()
     {
-        //ReactiveCollectionの長さを取る方法が不明
-        for (int i = 0; i < 200; i++)
+        for (int i = 0; i < _boardArray.Count; i++)
         {
             _boardArray[i] = TetriminoType.Void;
         }
@@ -32,7 +31,7 @@ public class Board
 
     public TetriminoType[] GetArray()
     {
-        TetriminoType[] board = new TetriminoType[200];
+        TetriminoType[] board = new TetriminoType[_boardArray.Count];
         
         for (int i = 0; i < board.Length; i++)
         {
