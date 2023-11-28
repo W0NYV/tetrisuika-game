@@ -12,13 +12,61 @@ public class BoardManager : MonoBehaviour
 
     public void ClearControllableSquares()
     {
-        for(int i = 0; i < 200; i++)
+        for(int i = 0; i < _board.BoardArray.Count; i++)
         {
             _board.ChangeControllable(i, false);
         }
     }
 
-    public bool IsControllableSquareAtBottom()
+    public bool IsAnyMinoAtBottom()
+    {
+        for (int i = 0; i < _board.BoardArray.Count; i++)
+        {
+            if(_board.IsControllableArray[i])
+            {
+                if(_board.BoardArray[i - 10] != TetriminoType.Void && !_board.IsControllableArray[i - 10])
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public bool IsAnyMinoAtLeft()
+    {
+        for (int i = 0; i < _board.BoardArray.Count; i++)
+        {
+            if(_board.IsControllableArray[i])
+            {
+                if(_board.BoardArray[i - 1] != TetriminoType.Void && !_board.IsControllableArray[i - 1])
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public bool IsAnyMinoAtRight()
+    {
+        for (int i = _board.BoardArray.Count - 1; i >= 0; i--)
+        {
+            if(_board.IsControllableArray[i])
+            {
+                if(_board.BoardArray[i + 1] != TetriminoType.Void && !_board.IsControllableArray[i + 1])
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public bool IsControllableMinoAtBottom()
     {
         for(int i = 0; i < 9; i++)
         {
@@ -53,17 +101,7 @@ public class BoardManager : MonoBehaviour
     {
         for (int i = 0; i < _board.BoardArray.Count; i++)
         {
-            if(_board.IsControllableArray[i])
-            {
-
-                Debug.Log(i);
-
-                _board.ChangeSquare(i-10, _board.BoardArray[i]);
-                _board.ChangeControllable(i-10, true);
-
-                _board.ChangeSquare(i, TetriminoType.Void);
-                _board.ChangeControllable(i, false);
-            }
+            AbstractShift(-10, i);
         }
     }
 
@@ -71,14 +109,7 @@ public class BoardManager : MonoBehaviour
     {
         for (int i = 0; i < _board.BoardArray.Count; i++)
         {
-            if(_board.IsControllableArray[i])
-            {
-                _board.ChangeSquare(i-1, _board.BoardArray[i]);
-                _board.ChangeControllable(i-1, true);
-
-                _board.ChangeSquare(i, TetriminoType.Void);
-                _board.ChangeControllable(i, false);
-            }
+            AbstractShift(-1, i);
         }
     }
 
@@ -86,14 +117,19 @@ public class BoardManager : MonoBehaviour
     {
         for (int i = _board.BoardArray.Count - 1; i >= 0; i--)
         {
-            if(_board.IsControllableArray[i])
-            {
-                _board.ChangeSquare(i+1, _board.BoardArray[i]);
-                _board.ChangeControllable(i+1, true);
+            AbstractShift(1, i);
+        }
+    }
 
-                _board.ChangeSquare(i, TetriminoType.Void);
-                _board.ChangeControllable(i, false);
-            }
+    private void AbstractShift(int offset, int index)
+    {
+        if(_board.IsControllableArray[index])
+        {
+            _board.ChangeSquare(index + offset, _board.BoardArray[index]);
+            _board.ChangeControllable(index + offset, true);
+
+            _board.ChangeSquare(index, TetriminoType.Void);
+            _board.ChangeControllable(index, false);
         }
     }
 

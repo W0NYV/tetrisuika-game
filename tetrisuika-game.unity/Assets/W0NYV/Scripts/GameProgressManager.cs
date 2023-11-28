@@ -7,44 +7,77 @@ public class GameProgressManager : MonoBehaviour
 
     [SerializeField] private BoardManager _boardManager;
 
+    private bool isGameStarted;
+
+    private void CreateNextMino()
+    {
+        _boardManager.ClearControllableSquares();
+        _boardManager.CreateControllableMino(); 
+    }
+
+    private void GameStart()
+    {
+        _boardManager.CreateControllableMino();
+    }
+
     private void Update() {
         
         if(Input.GetKeyDown("space"))
-        {
-            _boardManager.CreateControllableMino();
+        {   
+            if(!isGameStarted)
+            {
+                isGameStarted = true;
+                GameStart();
+            }
         }
 
         if(Input.GetKeyDown(KeyCode.DownArrow))
         {
-            _boardManager.DownShift();
-
-            if(_boardManager.IsControllableSquareAtBottom())
+            if(_boardManager.IsControllableMinoAtBottom())
             {
-                _boardManager.ClearControllableSquares();
-                _boardManager.CreateControllableMino();
+                CreateNextMino();
+            }
+            else
+            {
+                if(!_boardManager.IsAnyMinoAtBottom())
+                {
+                    _boardManager.DownShift();
+                }
+                else
+                {
+                    CreateNextMino();
+                }
             }
 
         }
 
         if(Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            _boardManager.LeftShift();
-
-            if(_boardManager.IsControllableSquareAtBottom())
+            if(_boardManager.IsControllableMinoAtBottom())
             {
-                _boardManager.ClearControllableSquares();
-                _boardManager.CreateControllableMino();
+                CreateNextMino();
+            }
+            else
+            {
+                if(!_boardManager.IsAnyMinoAtLeft())
+                {
+                    _boardManager.LeftShift();
+                }
             }
         }
 
         if(Input.GetKeyDown(KeyCode.RightArrow))
         {
-            _boardManager.RightShift();
-
-            if(_boardManager.IsControllableSquareAtBottom())
+            if(_boardManager.IsControllableMinoAtBottom())
             {
-                _boardManager.ClearControllableSquares();
-                _boardManager.CreateControllableMino();
+                CreateNextMino();
+            }
+            else
+            {
+                if(!_boardManager.IsAnyMinoAtRight())
+                {
+                    _boardManager.RightShift();
+                }
             }
         }
 
