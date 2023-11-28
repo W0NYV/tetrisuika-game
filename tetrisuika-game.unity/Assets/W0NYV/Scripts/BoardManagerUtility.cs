@@ -21,13 +21,12 @@ public static class BoardManagerUtility
 
     public static void AbstractShift(Board board, int offset, int index)
     {
-        if(board.IsControllableArray[index])
-        {
-            board.ChangeSquare(index + offset, board.BoardArray[index]);
-            board.ChangeControllable(index + offset, true);
 
-            board.ChangeSquare(index, TetriminoType.Void);
-            board.ChangeControllable(index, false);
-        }
+        board.ChangeSquare(index + offset, board.BoardArray[index]);
+        board.ChangeControllable(index + offset, true);
+
+        board.ChangeSquare(index, TetriminoType.Void);
+        board.ChangeControllable(index, false);
+        
     }
 }

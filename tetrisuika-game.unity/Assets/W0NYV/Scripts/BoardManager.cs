@@ -18,6 +18,65 @@ public class BoardManager : MonoBehaviour
         }
     }
 
+    public void ClearLine()
+    {
+        for(int i = 0; i < 20; i++)
+        {
+            if(IsLineFull(i))
+            {
+                for(int j = 0 + i * 10; j < 10 + i * 10; j++)
+                {
+                    _board.ChangeSquare(j, TetriminoType.Void);
+                }
+            }
+        }
+    }
+
+    public void SortLine()
+    {
+        for(int k = 0; k < 4; k++)
+        {
+            for(int i = 1; i < 20; i++)
+            {
+                if(!IsExistAnyMinoInLineBelowLine(i-1))
+                {
+                    LineDownShift(i);
+                }
+            }
+        }
+    }
+
+    private void LineDownShift(int lineNum)
+    {
+
+        for(int i = 0 + lineNum * 10; i < 10 + lineNum * 10; i++)
+        {
+            BoardManagerUtility.AbstractShift(_board, -10, i);
+        }    
+    }
+
+    private bool IsExistAnyMinoInLineBelowLine(int lineNum)
+    {
+        for(int i = 0 + lineNum * 10; i < 10 + lineNum * 10; i++)
+        {
+            if(_board.BoardArray[i] != TetriminoType.Void) return true;
+        }
+
+        return false;
+    }
+
+    //ライン埋まってたらTrue
+    private bool IsLineFull(int lineNum)
+    {
+        for(int i = 0 + lineNum * 10; i < 10 + lineNum * 10; i++)
+        {
+            if(_board.BoardArray[i] == TetriminoType.Void) return false;
+        }
+
+        return true;
+    }
+
+    //操作中のミノの下にミノがあればTrue
     public bool IsAnyMinoBelow()
     {
         for (int i = 0; i < _board.BoardArray.Count; i++)
@@ -68,7 +127,7 @@ public class BoardManager : MonoBehaviour
 
     public bool IsControllableMinoAtBottom()
     {
-        return BoardManagerUtility.AbstractIsControllableMino(_board, 0, 9, 1);
+        return BoardManagerUtility.AbstractIsControllableMino(_board, 0, 10, 1);
     }
 
     public bool IsControllableMinoAtLeftEnd()
@@ -102,7 +161,10 @@ public class BoardManager : MonoBehaviour
     {
         for (int i = 0; i < _board.BoardArray.Count; i++)
         {
-            BoardManagerUtility.AbstractShift(_board, -10, i);
+            if(_board.IsControllableArray[i])
+            {
+                BoardManagerUtility.AbstractShift(_board, -10, i);
+            }
         }
     }
 
@@ -110,7 +172,10 @@ public class BoardManager : MonoBehaviour
     {
         for (int i = 0; i < _board.BoardArray.Count; i++)
         {
-            BoardManagerUtility.AbstractShift(_board, -1, i);
+            if(_board.IsControllableArray[i])
+            {
+                BoardManagerUtility.AbstractShift(_board, -1, i);
+            }
         }
     }
 
@@ -118,7 +183,10 @@ public class BoardManager : MonoBehaviour
     {
         for (int i = _board.BoardArray.Count - 1; i >= 0; i--)
         {
-            BoardManagerUtility.AbstractShift(_board, 1, i);
+            if(_board.IsControllableArray[i])
+            {
+                BoardManagerUtility.AbstractShift(_board, 1, i);
+            }
         }
     }
 

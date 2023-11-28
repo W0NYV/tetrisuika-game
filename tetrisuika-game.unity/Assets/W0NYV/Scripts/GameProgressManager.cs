@@ -6,8 +6,7 @@ public class GameProgressManager : MonoBehaviour
 {
 
     [SerializeField] private BoardManager _boardManager;
-
-    private bool isGameStarted;
+    private GameData _data = new GameData();
 
     private void CreateNextMino()
     {
@@ -24,9 +23,9 @@ public class GameProgressManager : MonoBehaviour
         
         if(Input.GetKeyDown("space"))
         {   
-            if(!isGameStarted)
+            if(!_data.IsGameStarted)
             {
-                isGameStarted = true;
+                _data.SetIsGameStarted(true);
                 GameStart();
             }
         }
@@ -35,6 +34,8 @@ public class GameProgressManager : MonoBehaviour
         {
             if(_boardManager.IsControllableMinoAtBottom())
             {
+                _boardManager.ClearLine();
+                _boardManager.SortLine();
                 CreateNextMino();
             }
             else
@@ -45,6 +46,8 @@ public class GameProgressManager : MonoBehaviour
                 }
                 else
                 {
+                    _boardManager.ClearLine();
+                    _boardManager.SortLine();
                     CreateNextMino();
                 }
             }
@@ -55,6 +58,8 @@ public class GameProgressManager : MonoBehaviour
         {
             if(_boardManager.IsControllableMinoAtBottom())
             {
+                _boardManager.ClearLine();
+                _boardManager.SortLine();
                 CreateNextMino();
             }
             else
@@ -70,6 +75,8 @@ public class GameProgressManager : MonoBehaviour
         {
             if(_boardManager.IsControllableMinoAtBottom())
             {
+                _boardManager.ClearLine();
+                _boardManager.SortLine();
                 CreateNextMino();
             }
             else
