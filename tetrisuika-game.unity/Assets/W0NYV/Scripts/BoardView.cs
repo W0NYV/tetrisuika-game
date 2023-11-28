@@ -10,19 +10,25 @@ public class BoardView : MonoBehaviour
     [SerializeField] private Material _material;
     private Matrix4x4[] _instData = new Matrix4x4[200];
     private GraphicsBuffer _colorBuffer;
+    private ColorTable _colorTable = new ColorTable();
+
+    public void SetBuffer(TetriminoType[] board)
+    {
+        var colorArray = new Vector4[_instData.Length];
+        for(int i = 0; i < colorArray.Length; i++)
+        {
+            colorArray[i] = _colorTable.Table[board[i]];
+        }
+
+        _colorBuffer.SetData(colorArray);
+        colorArray = null;
+    }
 
     private void InitBuffer()
     {
         _colorBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, _instData.Length, sizeof(float) * 4);
 
-        var colorArray = new Vector4[_instData.Length];
-        for(int i = 0; i < colorArray.Length; i++)
-        {
-            colorArray[i] = new Vector4(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1f);
-        }
-
-        _colorBuffer.SetData(colorArray);
-        colorArray = null;
+        SetBuffer(new TetriminoType[200]);
     }
 
     private void Start() 
@@ -38,7 +44,7 @@ public class BoardView : MonoBehaviour
 
             _instData[i] = Matrix4x4.identity;
 
-            _instData[i].SetTRS(new Vector3(row * 2f, col * 2f, 0f),
+            _instData[i].SetTRS(new Vector3(row * 1.1f - 5f * 1.1f, col * 1.1f - 9.5f * 1.1f, 10f),
                                 Quaternion.identity,
                                 Vector3.one);
         }
