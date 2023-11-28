@@ -39,7 +39,7 @@ public class GameProgressManager : MonoBehaviour
             }
             else
             {
-                if(!_boardManager.IsAnyMinoAtBottom())
+                if(!_boardManager.IsAnyMinoBelow())
                 {
                     _boardManager.DownShift();
                 }
@@ -59,7 +59,7 @@ public class GameProgressManager : MonoBehaviour
             }
             else
             {
-                if(!_boardManager.IsAnyMinoAtLeft())
+                if(!_boardManager.IsAnyMinoAtLeft() && !_boardManager.IsControllableMinoAtLeftEnd())
                 {
                     _boardManager.LeftShift();
                 }
@@ -74,7 +74,7 @@ public class GameProgressManager : MonoBehaviour
             }
             else
             {
-                if(!_boardManager.IsAnyMinoAtRight())
+                if(!_boardManager.IsAnyMinoAtRight() && !_boardManager.IsControllableMinoAtRightEnd())
                 {
                     _boardManager.RightShift();
                 }

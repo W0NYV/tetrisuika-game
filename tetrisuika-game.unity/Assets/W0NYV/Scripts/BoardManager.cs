@@ -18,7 +18,7 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    public bool IsAnyMinoAtBottom()
+    public bool IsAnyMinoBelow()
     {
         for (int i = 0; i < _board.BoardArray.Count; i++)
         {
@@ -68,16 +68,17 @@ public class BoardManager : MonoBehaviour
 
     public bool IsControllableMinoAtBottom()
     {
-        for(int i = 0; i < 9; i++)
-        {
-            if(_board.IsControllableArray[i])
-            {
-                return true;
-            }
-            
-        }
+        return BoardManagerUtility.AbstractIsControllableMino(_board, 0, 9, 1);
+    }
 
-        return false;
+    public bool IsControllableMinoAtLeftEnd()
+    {
+        return BoardManagerUtility.AbstractIsControllableMino(_board, 0, _board.BoardArray.Count, 10);
+    }
+
+    public bool IsControllableMinoAtRightEnd()
+    {
+        return BoardManagerUtility.AbstractIsControllableMino(_board, 9, _board.BoardArray.Count, 10);
     }
 
     public void CreateControllableMino()
@@ -101,7 +102,7 @@ public class BoardManager : MonoBehaviour
     {
         for (int i = 0; i < _board.BoardArray.Count; i++)
         {
-            AbstractShift(-10, i);
+            BoardManagerUtility.AbstractShift(_board, -10, i);
         }
     }
 
@@ -109,7 +110,7 @@ public class BoardManager : MonoBehaviour
     {
         for (int i = 0; i < _board.BoardArray.Count; i++)
         {
-            AbstractShift(-1, i);
+            BoardManagerUtility.AbstractShift(_board, -1, i);
         }
     }
 
@@ -117,19 +118,7 @@ public class BoardManager : MonoBehaviour
     {
         for (int i = _board.BoardArray.Count - 1; i >= 0; i--)
         {
-            AbstractShift(1, i);
-        }
-    }
-
-    private void AbstractShift(int offset, int index)
-    {
-        if(_board.IsControllableArray[index])
-        {
-            _board.ChangeSquare(index + offset, _board.BoardArray[index]);
-            _board.ChangeControllable(index + offset, true);
-
-            _board.ChangeSquare(index, TetriminoType.Void);
-            _board.ChangeControllable(index, false);
+            BoardManagerUtility.AbstractShift(_board, 1, i);
         }
     }
 
